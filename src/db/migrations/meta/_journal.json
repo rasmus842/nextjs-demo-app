@@ -1,0 +1,24 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1680630555819,
+      "tag": "0000_woozy_hairball"
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1680630706858,
+      "tag": "0001_living_logan"
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1680637962002,
+      "tag": "0002_sparkling_nightmare"
+    }
+  ]
+}
