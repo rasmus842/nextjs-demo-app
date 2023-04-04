@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 export const Header = () => {
   const router = useRouter();
-  const linkClasses = 'hover:cursos-pointer hover:opacity-70';
+  const linkClasses = 'hover:cursor-pointer hover:opacity-70';
 
   /*
 button {
@@ -34,8 +34,8 @@ button {
         <Link className={linkClasses} href="/contact">
           &#9993; Contact
         </Link>
-        <Link className={linkClasses} href="/shop">
-          Shop
+        <Link className={linkClasses} href="/login">
+          Login
         </Link>
         <Link className={linkClasses} href="/account">
           &#128100; My Account
