@@ -20,18 +20,22 @@ if __name__ == '__main__':
   connection = pymysql.connect(**db_config)
   print('Connected to database!')
 
+  doTimestampUpdate = True
   try:
     print('Executing sql migration!\n')
     executeSqlMigrationFiles(MIGRATIONS_DIR, entries, connection)
     connection.commit()
     print('Changes commited!')
   except Exception as e:
+    doTimestampUpdate = False
     print('\n===== EXCEPTION =====')
     print(e)
     print('===== EXCEPTION =====\n')
+    print('Transaction rolled back!')
     connection.rollback()
   finally:
     connection.close()
     print('Closed connection to database!')
 
-  updateTimestamp(MIGRATION_TIMESTAMP_FILE_PATH, entries)
+  if doTimestampUpdate:
+    updateTimestamp(MIGRATION_TIMESTAMP_FILE_PATH, entries)
