@@ -1,21 +1,19 @@
-import {
-  bigint,
-  text,
-  timestamp,
-  varchar
-} from 'drizzle-orm/mysql-core/columns';
+import { int, text, timestamp, varchar } from 'drizzle-orm/mysql-core/columns';
 import { mysqlTable } from 'drizzle-orm/mysql-core/table';
 
-export const users = mysqlTable('users', {
-  id: bigint('id', { mode: 'bigint' }).autoincrement().primaryKey(),
+// FOREIGN KEYS are not supported at planetscale-mysql, so they are not added in actuality!!!
+// still writing reference-methods in-case using another db
+
+export const usersTable = mysqlTable('users', {
+  id: int('id').autoincrement().primaryKey(),
   name: text('name').notNull(),
-  passwordHash: varchar('password_hash', { length: 256 }),
+  passwordHash: varchar('password_hash', { length: 256 }).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull()
 });
 
-export const todos = mysqlTable('todos', {
-  id: bigint('id', { mode: 'bigint' }).autoincrement().primaryKey(),
+export const todosTable = mysqlTable('todos', {
+  id: int('id').autoincrement().primaryKey(),
   title: text('title').notNull(),
   description: text('description'),
-  userId: bigint('user_id', { mode: 'bigint' }).references(() => users.id)
+  userId: int('user_id').references(() => usersTable.id)
 });

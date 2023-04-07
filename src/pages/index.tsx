@@ -1,24 +1,52 @@
 import Modal from '~/components/Modal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { db } from '~/db/db';
+import { todosTable } from '~/db/schema';
+import { Todo } from '~/db/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-type FormValues = {
-  title: String;
-  text?: String;
-};
-
-export default function TodoPage() {
+export default function TodoPage({
+  todos
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [isModalActive, setIsModalActive] = useState(false);
-  const [todoList, setTodoList] = useState<TodoProps[]>([]);
+  const [todoList, setTodoList] = useState(todos);
 
-  const f = useForm<FormValues>();
+  const f = useForm<Todo.Insert>({
+    resolver: zodResolver(Todo.InsertSchema)
+  });
 
-  const addTodo: SubmitHandler<FormValues> = (data) => {
-    // TODO - add the todo and update state
+  const addTodo: SubmitHandler<Todo.Insert> = async (newTodo) => {
+    try {
+      const result = await fetch('/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTodo)
+      });
+      const addedTodo = Todo.SelectSchema.parse(await result.json());
+      setTodoList((prev) => [...prev, addedTodo]);
+      setIsModalActive(false);
+    } catch (err) {
+      console.error('addTodo error: ', err);
+    }
   };
 
-  const removeTodo = (id: number) => {
-    // TODO - remove the todo and update state
+  const removeTodo = async (id: number) => {
+    try {
+      const result = await fetch(`/api/todos/${id}`, {
+        method: 'DELETE'
+      });
+      if (result.status !== 204) {
+        console.error(result);
+      } else {
+        setTodoList((prev) => prev.filter((todo) => todo.id !== id));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -34,7 +62,7 @@ export default function TodoPage() {
           {todoList.map((todo, index) => {
             console.log(todo);
             return (
-              <Todo
+              <Card
                 key={todo.id}
                 id={todo.id}
                 title={todo.title}
@@ -58,7 +86,11 @@ export default function TodoPage() {
             </div>
             <div>
               <label htmlFor="text">description:</label>
-              <input type="text" id="description" {...f.register('text')} />
+              <input
+                type="text"
+                id="description"
+                {...f.register('description')}
+              />
             </div>
             <button type="submit">Add</button>
           </fieldset>
@@ -68,16 +100,27 @@ export default function TodoPage() {
   );
 }
 
-type TodoProps = {
+export const getServerSideProps: GetServerSideProps<{
+  todos: Todo.Type[];
+}> = async () => {
+  const todos = await db.select().from(todosTable);
+  return {
+    props: {
+      todos
+    }
+  };
+};
+
+type CardProps = {
   id: number;
   title: string;
-  description?: string;
+  description: string | null;
   removeTodo: (id: number) => void;
 };
 
-const Todo = ({ id, title, description, removeTodo }: TodoProps) => {
+const Card = ({ id, title, description, removeTodo }: CardProps) => {
   return (
-    <div className="relative w-[300px] min-h-[200px] flex flex-col p-3 bg-amber-200 border-black border-2 rounded">
+    <div className="relative w-[300px] min-h-[200px] flex flex-col p-3 bg-amber-800 border-black border-2 rounded">
       <h2 className="mb-2 capitalize underline">{title}</h2>
       <p>{description}</p>
       <button
