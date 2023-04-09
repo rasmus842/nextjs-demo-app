@@ -2,6 +2,7 @@ import { createNextApiHandler } from '@trpc/server/adapters/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createTRPCContext } from '~/server/api/context';
 import { appRouter } from '~/server/api/routers/_app';
+import { env } from '~/env.mjs';
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +15,12 @@ export default async function handler(
 const nextApiHandler = createNextApiHandler({
   router: appRouter,
   createContext: createTRPCContext,
-  onError: ({ path, error }) => {
-    console.error(`❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`);
-  }
+  onError:
+    env.NODE_ENV === 'development'
+      ? ({ path, error }) => {
+          console.error(
+            `❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`
+          );
+        }
+      : undefined
 });
