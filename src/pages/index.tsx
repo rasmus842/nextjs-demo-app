@@ -6,6 +6,7 @@ import { db } from '~/db/db';
 import { todosTable } from '~/db/schema';
 import { Todo } from '~/db/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { api } from '~/utils/api';
 
 export default function TodoPage({
   todos
@@ -13,40 +14,31 @@ export default function TodoPage({
   const [isModalActive, setIsModalActive] = useState(false);
   const [todoList, setTodoList] = useState(todos);
 
+  const addTodoMut = api.todos.add.useMutation();
+  const removeTodoMut = api.todos.remove.useMutation();
+
   const f = useForm<Todo.Insert>({
     resolver: zodResolver(Todo.InsertSchema)
   });
 
   const addTodo: SubmitHandler<Todo.Insert> = async (newTodo) => {
-    try {
-      const result = await fetch('/api/todos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newTodo)
-      });
-      const addedTodo = Todo.SelectSchema.parse(await result.json());
+    addTodoMut.mutateAsync(newTodo).then((id) => {
+      console.log(`Added new todo, insertId: ${id}`);
+      const addedTodo: Todo.Type = {
+        id,
+        title: newTodo.title!,
+        description: newTodo.description!,
+        userId: newTodo.userId!
+      };
       setTodoList((prev) => [...prev, addedTodo]);
       setIsModalActive(false);
-    } catch (err) {
-      console.error('addTodo error: ', err);
-    }
+    });
   };
 
   const removeTodo = async (id: number) => {
-    try {
-      const result = await fetch(`/api/todos/${id}`, {
-        method: 'DELETE'
-      });
-      if (result.status !== 204) {
-        console.error(result);
-      } else {
-        setTodoList((prev) => prev.filter((todo) => todo.id !== id));
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    removeTodoMut.mutateAsync(id).then(() => {
+      setTodoList((prev) => prev.filter((todo) => todo.id !== id));
+    });
   };
 
   return (
