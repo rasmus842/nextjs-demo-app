@@ -6,6 +6,7 @@ import { z } from 'zod';
  */
 const server = z.object({
   BASE_URL: z.string().url(),
+  NEXTAUTH_SECRET: z.string(),
   DATABASE_HOST: z.string(),
   DATABASE_USERNAME: z.string(),
   DATABASE_PASSWORD: z.string()
@@ -29,6 +30,7 @@ const client = z.object({
 const processEnv = {
   NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
   BASE_URL: process.env.BASE_URL,
+  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_USERNAME: process.env.DATABASE_USERNAME,
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD
