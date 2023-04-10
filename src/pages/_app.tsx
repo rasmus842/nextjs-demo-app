@@ -13,7 +13,7 @@ const App: AppType<{ session: Session }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Layout isDev={env.NEXT_PUBLIC_IS_DEV}>
+      <Layout isDev={env.NEXT_PUBLIC_NODE_ENV === 'development'}>
         <Component {...pageProps} />
       </Layout>
     </SessionProvider>

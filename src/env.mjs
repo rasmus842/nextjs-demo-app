@@ -5,7 +5,7 @@ import { z } from 'zod';
  * built with invalid env vars.
  */
 const server = z.object({
-  NODE_ENV: z.enum(['development', 'test', 'production']),
+  BASE_URL: z.string().url(),
   DATABASE_HOST: z.string(),
   DATABASE_USERNAME: z.string(),
   DATABASE_PASSWORD: z.string()
@@ -17,7 +17,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-  NEXT_PUBLIC_IS_DEV: z.enum('true', 'false').transform((str) => str === 'true')
+  NEXT_PUBLIC_NODE_ENV: z.enum(['development', 'test', 'production'])
 });
 
 /**
@@ -27,8 +27,8 @@ const client = z.object({
  * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
  */
 const processEnv = {
-  NODE_ENV: process.env.NODE_ENV,
-  NEXT_PUBLIC_IS_DEV: process.env.NEXT_PUBLIC_IS_DEV,
+  NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
+  BASE_URL: process.env.BASE_URL,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_USERNAME: process.env.DATABASE_USERNAME,
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD
