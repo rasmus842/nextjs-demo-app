@@ -17,6 +17,7 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_IS_DEV: z.enum('true', 'false').transform((str) => str === 'true')
 });
 
 /**
@@ -27,6 +28,7 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
+  NEXT_PUBLIC_IS_DEV: process.env.NEXT_PUBLIC_IS_DEV,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_USERNAME: process.env.DATABASE_USERNAME,
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD

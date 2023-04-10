@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import 'normalize.css';
 import '~/pages/globals.css';
+import { env } from '~/env.mjs';
 
 const App: AppType<{ session: Session }> = ({
   Component,
@@ -12,7 +13,7 @@ const App: AppType<{ session: Session }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Layout>
+      <Layout isDev={env.NEXT_PUBLIC_IS_DEV}>
         <Component {...pageProps} />
       </Layout>
     </SessionProvider>
