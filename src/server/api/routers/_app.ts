@@ -1,4 +1,4 @@
-import { createTRPCRouter } from '../context';
+import { createTRPCRouter } from '../init';
 import { todosRouter } from './todos';
 
 export const appRouter = createTRPCRouter({
