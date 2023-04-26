@@ -1,21 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSession } from '~/utils/use-session';
+
+const linkClasses = 'hover:cursor-pointer hover:opacity-70';
 
 export const Header = () => {
-  const router = useRouter();
-  const linkClasses = 'hover:cursor-pointer hover:opacity-70';
+  const session = useSession();
 
-  /*
-button {
-    background-color: #44449B;
-    color: #DDEDF4;
-    border: none;
-    border-radius: 4px;
-    padding: 8px;
-    align-self: center;
-}
-  */
+  const router = useRouter();
 
   return (
     <header className="fixed top-0 w-full flex items-center gap-9 p-2 text-gray-100 bg-slate-900 whitespace-nowrap">
@@ -34,12 +27,21 @@ button {
         <Link className={linkClasses} href="/contact">
           &#9993; Contact
         </Link>
-        <Link className={linkClasses} href="/login">
-          Login
-        </Link>
-        <Link className={linkClasses} href="/account">
-          &#128100; My Account
-        </Link>
+        {!session.isAuthorised && (
+          <>
+            <Link className={linkClasses} href="/login">
+              Login
+            </Link>
+            <Link className={linkClasses} href="/signup">
+              Sign up
+            </Link>
+          </>
+        )}
+        {session.isAuthorised && (
+          <Link className={linkClasses} href="/account">
+            &#128100; My Account
+          </Link>
+        )}
       </ul>
       <button
         onClick={() => router.push('/cart')}

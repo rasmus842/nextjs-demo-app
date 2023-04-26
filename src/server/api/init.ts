@@ -30,8 +30,9 @@ export const createTRPCRouter = t.router;
  * @see https://trpc.io/docs/server/middlewares
  */
 const authMiddleware = t.middleware(({ ctx, next }) => {
+  if (!ctx.session.isAuthorised) throw new TRPCError({ code: 'UNAUTHORIZED' });
   return next({
-    ctx: {}
+    ctx
   });
 });
 

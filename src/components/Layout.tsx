@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export default function Layout({ isDev, children }: LayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="min-h-screen flex flex-col ">
       {isDev && (
         <div className="absolute top-3 left-1/3 text-xl font-bold text-white z-10">
           DEV-ENV

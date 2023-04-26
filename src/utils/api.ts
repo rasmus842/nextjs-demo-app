@@ -22,9 +22,9 @@ export const api = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
 
           // You can pass any HTTP headers you wish here
-          async headers() {
+          headers() {
             return {
-              // authorization: getAuthCookie(),
+              authorization: window.sessionStorage.getItem('token') ?? ''
             };
           }
         })

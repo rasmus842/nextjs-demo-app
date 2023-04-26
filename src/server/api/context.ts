@@ -1,10 +1,13 @@
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { Session, getSession } from '../auth/session';
 
 /**
  * This section defines the "contexts" that are available in the backend API.
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
-type CreateContextOptions = {};
+type CreateContextOptions = {
+  session: Session;
+};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -15,7 +18,10 @@ type CreateContextOptions = {};
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-  return {};
+  const session = _opts.session;
+  return {
+    session
+  };
 };
 
 /**
@@ -24,6 +30,9 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  const { req, res } = _opts;
-  return createInnerTRPCContext({});
+  const token = _opts.req.headers.authorization;
+  const session = getSession(token);
+  return createInnerTRPCContext({
+    session
+  });
 };

@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
-import { todosTable } from './schema';
+import { todosTable, usersTable } from './schema';
 
 // Use drizzle-orm, drizzle-zod and zod to generate any type corresponding to database object
 // InferModel to get plain type
@@ -17,4 +17,9 @@ export namespace Todo {
     title: z.string().optional()
   }).omit({ id: true });
   export type Update = z.infer<typeof UpdateSchema>;
+}
+
+export namespace User {
+  export const InsertSchema = createInsertSchema(usersTable).omit({ id: true });
+  export type Insert = z.infer<typeof InsertSchema>;
 }
