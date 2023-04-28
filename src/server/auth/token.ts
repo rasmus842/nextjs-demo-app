@@ -23,14 +23,10 @@ export const createToken = (userName: string): Token => {
   // with the form <header>.<signature>
   // header - { usr: username, eat: expiresAt}
   // signature = hmac hash with some hashing algo and secret, base64 input and output
-  const currentDate = new Date();
+
   const header: TokenHeader = {
     usr: userName,
-    eat: new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDay() + 1
-    )
+    eat: new Date()
   };
 
   const headerBase64 = Buffer.from(JSON.stringify(header), 'utf8').toString(

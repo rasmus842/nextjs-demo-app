@@ -22,7 +22,7 @@ export const usersRouter = createTRPCRouter({
       const result = await db.insert(usersTable).values(newUser);
       */
       const name = req.input.name;
-      console.log('New user signed up: ', name);
+      console.log('New user signed up:', name);
       return createToken(name);
     }),
   login: publicProcedure
