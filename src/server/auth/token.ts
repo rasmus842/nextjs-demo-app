@@ -1,24 +1,8 @@
 import { createHmac } from 'crypto';
-import { z } from 'zod';
 import { env } from '~/env.mjs';
+import { Token, TokenHeader } from './token-schema';
 
 export const TOKEN_TIME_MILLIS = env.TOKEN_TIME_HOURS * 60 * 60 * 1000;
-
-// TODO - the two groups separated by the dot must be valid base64 strings
-export const tokenSchema = z.string().regex(/^(.+)\.(.+)$/);
-
-export type Token = z.infer<typeof tokenSchema>;
-
-export const headerSchema = z.object({
-  usr: z.string().nonempty(),
-  eat: z
-    .string()
-    .datetime({ offset: true })
-    .nonempty()
-    .transform((dateString) => new Date(dateString))
-});
-
-export type TokenHeader = z.infer<typeof headerSchema>;
 
 export const createToken = (userName: string): Token => {
   // TODO - create token

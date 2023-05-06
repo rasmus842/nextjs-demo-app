@@ -1,6 +1,6 @@
 import { Session } from '~/server/auth/session';
 import React, { useContext, useEffect, useState } from 'react';
-import { headerSchema, tokenSchema } from '~/server/auth/token';
+import { headerSchema, tokenSchema } from '~/server/auth/token-schema';
 
 const SessionContext = React.createContext<Session>({ isAuthorised: false });
 const SessionContextUpdater = React.createContext<() => void>(() => {});

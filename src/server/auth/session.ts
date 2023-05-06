@@ -1,6 +1,6 @@
 import { createHmac } from 'crypto';
 import { env } from '~/env.mjs';
-import { headerSchema, tokenSchema } from './token';
+import { headerSchema, tokenSchema } from './token-schema';
 
 export interface Session {
   user?: string;
