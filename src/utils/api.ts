@@ -1,4 +1,4 @@
-import { httpBatchLink } from '@trpc/client';
+import { httpBatchLink, loggerLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/api/routers/_app';
 import SuperJSON from 'superjson';
@@ -14,6 +14,9 @@ export const api = createTRPCNext<AppRouter>({
     return {
       transformer: SuperJSON,
       links: [
+        loggerLink({
+          enabled: () => env.NEXT_PUBLIC_NODE_ENV === 'development'
+        }),
         httpBatchLink({
           /**
            * If you want to use SSR, you need to use the server's full URL

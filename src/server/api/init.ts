@@ -36,9 +36,28 @@ const authMiddleware = t.middleware(({ ctx, next }) => {
   });
 });
 
+const simpleLoggingMiddleWare = t.middleware(async (opts) => {
+  const session = opts.ctx.session;
+
+  console.log('\n-----REQUEST-----');
+  console.log(`Path: ${opts.path} (${opts.type})`);
+  console.log(
+    `Session: { isAuthorised: ${session.isAuthorised}, user: ${session.user}, expiresAt: ${session.expiresAt} }`
+  );
+  console.log('Input: ', opts.rawInput);
+  console.log('Meta: ', opts.meta);
+
+  const result = await opts.next();
+  console.log('SUCCESS: ', result.ok);
+  console.log('-----REQUEST-----\n');
+  return result;
+});
+
 /**
  * @see https://trpc.io/docs/procedures
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(simpleLoggingMiddleWare);
 
-export const protectedProcedure = t.procedure.use(authMiddleware);
+export const protectedProcedure = t.procedure
+  .use(authMiddleware)
+  .use(simpleLoggingMiddleWare);
