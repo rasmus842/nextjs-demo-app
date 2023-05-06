@@ -9,7 +9,8 @@ const server = z.object({
   SECRET: z.string(),
   DATABASE_HOST: z.string(),
   DATABASE_USERNAME: z.string(),
-  DATABASE_PASSWORD: z.string()
+  DATABASE_PASSWORD: z.string(),
+  TOKEN_TIME_HOURS: z.string().transform((number_str) => Number(number_str))
 });
 
 /**
@@ -29,11 +30,12 @@ const client = z.object({
  */
 const processEnv = {
   NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
-  BASE_URL: process.env.BASE_URL,
-  SECRET: process.env.SECRET,
-  DATABASE_HOST: process.env.DATABASE_HOST,
-  DATABASE_USERNAME: process.env.DATABASE_USERNAME,
-  DATABASE_PASSWORD: process.env.DATABASE_PASSWORD
+  BASE_URL: process.env.NEXT_BASE_URL,
+  SECRET: process.env.NEXT_SECRET,
+  DATABASE_HOST: process.env.NEXT_DATABASE_HOST,
+  DATABASE_USERNAME: process.env.NEXT_DATABASE_USERNAME,
+  DATABASE_PASSWORD: process.env.NEXT_DATABASE_PASSWORD,
+  TOKEN_TIME_HOURS: process.env.NEXT_TOKEN_TIME_HOURS
 };
 
 // Don't touch the part below
