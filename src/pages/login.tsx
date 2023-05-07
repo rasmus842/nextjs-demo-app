@@ -5,31 +5,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { api } from '~/utils/api';
 import { useSession, useSessionUpdater } from '~/utils/use-session';
+import { userSchema } from './signup';
 
-export const userSchema = z.object({
-  name: z
-    .string()
-    .min(6, 'Username must be at least 6 characters long!')
-    .max(256, 'Username is too long!')
-    .regex(/^[a-zA-Z0-9]+$/, 'Username must contain only letters and numbers!')
-    .nonempty({ message: 'Username must be provided' }),
-  password: z
-    .string()
-    .min(6, 'Password must be at least 6 characters long!')
-    .max(256, 'Password is too long!')
-    .regex(/^[a-zA-Z0-9]+$/, 'Password must contain only letters and numbers!')
-    .nonempty({ message: 'Password must be provided' })
-});
-
-type NewUser = z.infer<typeof userSchema>;
+type OldUser = z.infer<typeof userSchema>;
 
 export default function SignupPage() {
   const session = useSession();
   const updateSession = useSessionUpdater();
   const router = useRouter();
-  const signupMut = api.users.signup.useMutation();
+  const loginMut = api.users.login.useMutation();
 
-  const f = useForm<NewUser>({
+  const f = useForm<OldUser>({
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -46,16 +32,16 @@ export default function SignupPage() {
   }, [session, router]);
 
   useEffect(() => {
-    if (signupMut.isSuccess && !session.isAuthorised) {
-      console.log('Got token: ', signupMut.data);
-      window.sessionStorage.setItem('token', signupMut.data);
+    if (loginMut.isSuccess && !session.isAuthorised) {
+      console.log('Got token: ', loginMut.data);
+      window.sessionStorage.setItem('token', loginMut.data);
       updateSession();
     }
-  }, [signupMut.isSuccess, signupMut.data, session, updateSession]);
+  }, [loginMut.isSuccess, loginMut.data, session, updateSession]);
 
-  const onSubmit: SubmitHandler<NewUser> = (data) => {
-    console.log('submitted signup data:', data);
-    signupMut.mutate(data);
+  const onSubmit: SubmitHandler<OldUser> = (data) => {
+    console.log('submitted login data:', data);
+    loginMut.mutate(data);
   };
 
   return (

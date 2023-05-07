@@ -20,6 +20,9 @@ export namespace Todo {
 }
 
 export namespace User {
+  export const SelectSchema = createInsertSchema(usersTable);
+  export type Type = z.infer<typeof SelectSchema>;
+
   export const InsertSchema = createInsertSchema(usersTable).omit({ id: true });
   export type Insert = z.infer<typeof InsertSchema>;
 }

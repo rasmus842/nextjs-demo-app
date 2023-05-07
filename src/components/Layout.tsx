@@ -16,7 +16,7 @@ export default function Layout({ isDev, children }: LayoutProps) {
         </div>
       )}
       <Header />
-      <div className="mt-16">{children}</div>
+      <main className="mt-16">{children}</main>
       <Footer />
     </div>
   );

@@ -1,15 +1,12 @@
 import { test, expect } from 'vitest';
-import {
-  TOKEN_TIME_MILLIS,
-  TokenHeader,
-  createToken
-} from '~/server/auth/token';
+import { TOKEN_TIME_MILLIS, createToken } from '~/server/auth/token';
+import { TokenHeader } from '~/server/auth/token-schema';
 
 const base64_regex =
   /(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?/;
 
 test('Tests create token function in server/auth/token.ts', () => {
-  const test_user = 'cypress';
+  const test_user = 'testing';
   const now = Date.now();
 
   const token = createToken(test_user);

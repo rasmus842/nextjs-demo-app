@@ -43,7 +43,7 @@ export default function TodoPage({
 
   return (
     <>
-      <main className="min-h-full flex flex-col">
+      <div className="min-h-full flex flex-col">
         <button
           className="self-center my-5 bg-gray-500 w-[100px] border-2 rounded border-black"
           onClick={() => setIsModalActive(true)}
@@ -64,7 +64,7 @@ export default function TodoPage({
             );
           })}
         </div>
-      </main>
+      </div>
       <Modal
         isOpen={isModalActive}
         title="Add new todo-item"

@@ -60,6 +60,6 @@ const getSession = (): Session => {
   return {
     user: header.data.usr,
     expiresAt: header.data.eat,
-    isAuthorised: header.data.eat.getTime() < new Date().getTime()
+    isAuthorised: header.data.eat.getTime() > Date.now()
   };
 };

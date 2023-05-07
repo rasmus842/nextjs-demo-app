@@ -10,6 +10,11 @@ export const Header = () => {
 
   const router = useRouter();
 
+  const logOut = () => {
+    window.sessionStorage.removeItem('token');
+    router.reload();
+  };
+
   return (
     <header className="fixed top-0 w-full flex items-center gap-9 p-2 text-gray-100 bg-slate-900 whitespace-nowrap">
       <div className="flex items-center gap-2 text-2xl">
@@ -38,9 +43,14 @@ export const Header = () => {
           </>
         )}
         {session.isAuthorised && (
-          <Link className={linkClasses} href="/account">
-            &#128100; My Account
-          </Link>
+          <>
+            <span className={linkClasses} onClick={logOut}>
+              Log out
+            </span>
+            <Link className={linkClasses} href="/account">
+              &#128100; My Account
+            </Link>
+          </>
         )}
       </ul>
       <button
