@@ -1,5 +1,10 @@
-import { int, text, timestamp, varchar } from 'drizzle-orm/mysql-core/columns';
-import { mysqlTable } from 'drizzle-orm/mysql-core/table';
+import {
+  int,
+  text,
+  timestamp,
+  varchar,
+  mysqlTable
+} from 'drizzle-orm/mysql-core';
 
 // FOREIGN KEYS are not supported at planetscale-mysql, so they are not added in actuality!!!
 // still writing reference-methods in-case using another db
