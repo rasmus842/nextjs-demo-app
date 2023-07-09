@@ -1,0 +1,16 @@
+.next
+.vscode
+
+node_modules
+drizzle
+cypress
+cypress.config.ts
+scripts
+src/__tests__
+vitest.config.ts
+
+README.md
+.gitignore
+.env*
+.eslint*
+.prettier*
