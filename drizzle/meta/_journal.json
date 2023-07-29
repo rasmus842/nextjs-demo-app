@@ -5,26 +5,9 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1680630555819,
-      "tag": "0000_woozy_hairball"
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1680630706858,
-      "tag": "0001_living_logan"
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1680637962002,
-      "tag": "0002_sparkling_nightmare"
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1680720695755,
-      "tag": "0003_dusty_doctor_octopus"
+      "when": 1688914439019,
+      "tag": "0000_daily_stephen_strange",
+      "breakpoints": true
     }
   ]
 }

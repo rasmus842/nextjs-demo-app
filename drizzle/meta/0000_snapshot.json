@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "b3460e42-a3e3-4dcc-a4a7-a29cf8d45adb",
+  "id": "3c2c0682-f767-45cc-b50a-80d51ca48762",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "todos": {
@@ -9,7 +9,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
+          "type": "int",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
@@ -30,7 +30,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "int",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -47,7 +47,9 @@
           ],
           "columnsTo": [
             "id"
-          ]
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {}
@@ -57,7 +59,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
+          "type": "int",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
@@ -73,14 +75,14 @@
           "name": "password_hash",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false,
           "default": "(now())"
         }

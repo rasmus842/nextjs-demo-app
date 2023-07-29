@@ -40,7 +40,6 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (session.isAuthorised) {
-      // TODO - redirect to a different page. Already logged in or smth like that.
       router.replace('/');
     }
   }, [session, router]);

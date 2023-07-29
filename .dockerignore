@@ -1,16 +1,24 @@
+# generated
 .next
 .vscode
-
 node_modules
+
+# drizzle-kit
 drizzle
+drizzle.config.ts
+
+# tests
 cypress
 cypress.config.ts
-scripts
 src/__tests__
 vitest.config.ts
 
+# dev-env files
+scripts
 README.md
 .gitignore
-.env*
 .eslint*
 .prettier*
+
+# .env is required, but not .env.example
+.env.example
