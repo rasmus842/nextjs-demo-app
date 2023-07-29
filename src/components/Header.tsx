@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from '~/utils/use-session';
+import { Switch } from '~/lib/ui/switch';
 
 const linkClasses = 'hover:cursor-pointer hover:opacity-70';
 
@@ -23,6 +24,7 @@ export const Header = () => {
         </p>
       </div>
       <ul className="flex ml-auto gap-3">
+        <Switch />
         <Link className={linkClasses} href="/">
           Home
         </Link>
